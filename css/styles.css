@@ -1,17 +1,45 @@
 body{
     margin: 0;
-    background-color:black;
-}
-h1{
+    background-color:#202F37;
+    overflow-x: hidden;
     text-align: center;
-    color: aliceblue;
 }
+
+.topnav {
+    background-color: #172933; /* Set the background color */
+    overflow: hidden; /* Hide overflowing content */
+    width: 100%;
+    padding: 15px;
+    border-bottom: 2px solid aliceblue;
+  }
+
+  .topnav a {
+    float: left; /* Float the navigation links to the left */
+    color: #f2f2f2; /* Set the text color */
+    text-align: center; /* Center-align the text */
+    padding: 20px 28px; /* Add padding around the links */
+    text-decoration: none; /* Remove underline from links */
+    font-size: 18px;
+  }
+
+  .topnav a:hover {
+    background-color: #ddd; /* Change the background color on hover */
+    color: black; /* Change the text color on hover */
+  }
+
+  .topnav a.active {
+    background-color: #FFC92F; /* Set the active link's background color */
+    color: black; /* Set the active link's text color */
+  }
+
 p{
-    text-align: left;
+    text-align: center;
     display: block;
+    font-size: 20px;
 }
 p.inset 
 {
+    border-width: 2px thin;
     border-style: inset;
     border-color:aliceblue;
 }
@@ -19,10 +47,6 @@ p.outset
 {
     border-style: outset;
     border-color: aliceblue;
-}
-p{
-    font-size: 30px;
-    color: black;
 }
 h2, h3{
     font-size: 35px;
@@ -45,6 +69,7 @@ h2, h3{
     width: 850px;
     flex-basis: 30%;
     border-radius: 20px;
+    margin-top: 5%;
     margin-bottom: 5%;
     padding: 20px 50px;
     box-sizing: border-box;
@@ -68,6 +93,27 @@ img{
     }
 }
 
+.footer {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #172933;
+    color: white;
+    text-align: center;
+    border-top: 2px solid;
+}
 
-
-
+select{
+    border:none;
+    padding: 10px 20px;
+    border-radius:5px;
+}
+  
+select:focus{
+    outline:none;
+}
+label{
+    font-size: 20px;
+    color: #FFC92F;
+}
