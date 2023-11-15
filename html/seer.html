@@ -1,0 +1,53 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Project SEER</title>
+    <!-- linking to css -->
+    <link rel="stylesheet" href="../css" />
+    <!-- linking to PyScript assets -->
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <py-env> 
+        - numpy 
+        - matplotlib 
+        - path: 
+            - ../python/main.py 
+    </py-env>
+  </head>
+
+  <body>
+    <br />
+    <h1>- SEER (GPS Tracker) -</h1>
+    <p class="inset"></p>
+    <br />
+    <br />
+
+    <div class="blog-post" style="background-color: whitesmoke">
+      <h2>Pathway Tracker</h2>
+      <br />
+      <!--<img src="" height="250" width="600" class="center">
+        <img src="" class="center">-->
+      <p>- Select Security Guard's name to track pathway -</p>
+      <br />
+      <p>... ...</p>
+      <br /><br />
+    </div>
+
+    <div id="plot"></div>
+    <py-script output="plot">
+        import matplotlib.pyplot as plt 
+        import numpy as np 
+        x = np.array([5,7,8,7,2,17,2,9,4,11,12,9,6]) 
+        y = np.array([99,86,87,88,111,86,103,87,94,78,77,85,86]) 
+        plt.scatter(x, y)
+        plt.show()
+      </py-script>
+
+    <br />
+    <br />
+    <br />
+    <p class="inset"></p>
+  </body>
+</html>
