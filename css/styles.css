@@ -34,6 +34,19 @@ nav img{
     padding: 8px 12px;
     position: relative;
 }
+.nav-links ul li a{
+    color:#FFC92F
+    text-decoration: none;
+    font-size: 13px;
+}
+.nav-links ul li::after{
+    content: '';
+    width: 100%;
+    height: 2px;
+    background-color:#172933;
+    display: block;
+    margin: block;
+}
 
 p{
     text-align: center;

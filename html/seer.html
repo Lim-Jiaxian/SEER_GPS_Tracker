@@ -13,7 +13,7 @@
         - numpy 
         - matplotlib 
         - path: 
-            - ../python/main.py 
+            - ../python/seer.py 
     </py-env>
   </head>
 
@@ -25,27 +25,40 @@
     <br />
 
     <div class="blog-post" style="background-color: whitesmoke">
-      <h2>Pathway Tracker</h2>
-      <br />
-      <!--<img src="" height="250" width="600" class="center">
-        <img src="" class="center">-->
-      <p>- Select Security Guard's name to track pathway -</p>
-      <br />
-      <p>... ...</p>
+      <img src="Images/map.png" alt="Your plot">
       <br /><br />
     </div>
-
+     
+     <!--
     <div id="plot"></div>
     <py-script output="plot">
-        import matplotlib.pyplot as plt 
-        import numpy as np 
-        import os
+      from flask import Flask, send_file
+      import matplotlib.pyplot as plt 
+      import numpy as np 
+      import os
 
-        x = np.array([5,7,8,7,2,17,2,9,4,11,12,9,6]) 
-        y = np.array([99,86,87,88,111,86,103,87,94,78,77,85,86]) 
-        plt.scatter(x, y)
-        plt.show()
+      app = Flask(__name__)
+
+      @app.route('/plot')
+
+      def plot():
+           x = np.array([5,7,8,7,2,17,2,9,4,11,12,9,6]) 
+    
+           y = np.array([99,86,87,88,111,86,103,87,94,78,77,85,86]) 
+
+           plt.scatter(x, y)
+
+           if not os.path.exists('Images'):
+              os.makedirs('Images')
+
+           plt.savefig('Images/plot.png')
+
+           return send_file('Images/plot.png', mimetype='image/png')
+
+      if __name__ == '__main__':
+        app.run(debug=True)
     </py-script>
+  -->
 
     <br />
     <br />
