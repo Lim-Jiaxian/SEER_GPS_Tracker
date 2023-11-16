@@ -9,17 +9,22 @@ body{
     background-color: #172933; /* Set the background color */
     overflow: hidden; /* Hide overflowing content */
     width: 100%;
-    padding: 15px;
+    padding: 30px;
     border-bottom: 2px solid aliceblue;
+    
   }
 
   .topnav a {
-    float: left; /* Float the navigation links to the left */
+    float: center; /* Float the navigation links to the left */
     color: #f2f2f2; /* Set the text color */
     text-align: center; /* Center-align the text */
     padding: 20px 28px; /* Add padding around the links */
     text-decoration: none; /* Remove underline from links */
-    font-size: 18px;
+    font-size: 20px;
+    border-top-left-radius:30px;
+    border-bottom-left-radius:30px; 
+    border-top-right-radius:30px;
+    border-bottom-right-radius:30px;  
   }
 
   .topnav a:hover {
