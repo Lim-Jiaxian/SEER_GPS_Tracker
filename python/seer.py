@@ -85,3 +85,4 @@ for index in range(0,len(lons),5):
     transform = ccrs.PlateCarree()._as_mpl_transform(ax1) # set transform for annotations
 
     plt.pause(0.001) # pause between point plots
+    plt.savefig('map.png', format='png', dpi=300) # save the figure to a file
