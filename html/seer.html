@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Project SEER</title>
     <!-- linking to css -->
-    <link rel="stylesheet" href="../css" />
+    <link rel="stylesheet" href="../css/styles.css" />
     <!-- linking to PyScript assets -->
     <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
     <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
@@ -39,13 +39,13 @@
     <py-script output="plot">
         import matplotlib.pyplot as plt 
         import numpy as np 
+        import os
+
         x = np.array([5,7,8,7,2,17,2,9,4,11,12,9,6]) 
         y = np.array([99,86,87,88,111,86,103,87,94,78,77,85,86]) 
         plt.scatter(x, y)
-        plt.savefig('Images/plot.png')  # Save the plot to a file
-      </py-script>
-
-      <img src="Images/plot.png"> 
+        plt.show()
+    </py-script>
 
     <br />
     <br />
