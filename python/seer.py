@@ -28,7 +28,7 @@ def image_spoof(self, tile): # this function pretends not to be a Python script
 
 
 arduino_data = []
-with open('python/CP_GPS.csv','r') as dat_file:
+with open('CP_GPS.csv','r') as dat_file:
     reader = csv.reader(dat_file)
     for row in reader:
         arduino_data.append(row)
