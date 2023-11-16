@@ -13,7 +13,7 @@
         - numpy 
         - matplotlib 
         - path: 
-            - ../python/main.py 
+            - ../python/seer.py 
     </py-env>
   </head>
 
@@ -24,35 +24,30 @@
     <br />
     <br />
 
-    <div class="blog-post" style="background-color: whitesmoke">
-      <h2>Pathway Tracker</h2>
-      <br />
-      <!--<img src="" height="250" width="600" class="center">
-        <img src="" class="center">-->
-      <p>- Select Security Guard's name to track pathway -</p>
-      <br />
-      <p>... ...</p>
+    <div class="seer-map" style="background-color: whitesmoke">
+      <h2> - Captured pathway - </h2><br><br>
+      <div id="plot" class="center"></div>
+      <py-script output="plot">
+          import matplotlib
+          import matplotlib.pyplot as plt 
+          import numpy as np 
+          
+          t = np.arange(0.0, 2.0 , 0.01)
+          s = 1 + np.sin(2 * np.pi * t)
+
+          fig, ax = plt.subplots()
+          ax.plot(t,s)
+
+          ax.set(xlabel='time (s)', ylabel='voltage (mV)',
+                title='About as simple as it gets, folks')
+          ax.grid()
+
+          fig
+        </py-script>
       <br /><br />
     </div>
 
-    <div id="plot"></div>
-    <py-script output="plot">
-        import matplotlib
-        import matplotlib.pyplot as plt 
-        import numpy as np 
-        
-        t = np.arange(0.0, 2.0 , 0.01)
-        s = 1 + np.sin(2 * np.pi * t)
-
-        fig, ax = plt.subplots()
-        ax.plot(t,s)
-
-        ax.set(xlabel='time (s)', ylabel='voltage (mV)',
-              title='About as simple as it gets, folks')
-        ax.grid()
-
-        fig
-      </py-script>
+    
 
     <br />
     <br />
