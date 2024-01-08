@@ -10,9 +10,8 @@ import io,time
 from urllib.request import urlopen, Request
 from PIL import Image
 plt.ion()
-from flask import Flask, render_template
-app = Flask(__main__)
-@app.route('/')
+
+
 
 def image_spoof(self, tile): 
     api_url = self._image_url(tile) # get the url of the street map API
@@ -100,17 +99,11 @@ ax1.add_image(osm_img, int(scale + 1))
 #         Plot the GPS points         #
 #######################################
 
-
+    
 for index in range(0,len(lons),5):
     ax1.plot(lons[index],lats[index], markersize=10,marker='o',linestyle='',
              color='Black',transform=ccrs.PlateCarree(),label='GPS Point') # plot points
     transform = ccrs.PlateCarree()._as_mpl_transform(ax1) # set transform for annotations
-
     plt.pause(1) # pause between point plots
     plt.savefig('Images/map.png', format='png', dpi=300) # save the figure to a file
-    image_path = "/images/map.jpg"  # replace with your image path
-    return render_template('seer.html', image = image_path) # return the image to the webpage
-
-
-if (__name__ == "__main__"):
-    app.run(debug=True)
+   
