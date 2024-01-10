@@ -21,8 +21,9 @@
 const char* ssid = "K'11";
 const char* password = "a1357b24689";
 
-//Initialise apache server 
-const char* apacheServer = "http://192.168.43.190/seer/php/GeoDBConnection.php";
+//Declaring the apache server address to php file for posting data
+const char* apacheServer = "http://192.168.43.190/seer/php/GpsPostData.php";
+//const char* apacheServer = "http://192.168.43.93/seer/php/GpsPostData.php";
 
 //Two Arduino pins for software serial
 int RXPin = 16;

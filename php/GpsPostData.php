@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST')
     $json = file_get_contents('php://input');
     $gpsdata = json_decode($json, true);
 
-    // Prepare SQL statement for inserting data into database, followed by binding the parameters to the SQL statement and executing the sql statement
+    //Prepare SQL statement for inserting data into database, followed by binding the parameters to the SQL statement and executing the sql statement
     $sqlstatement = $mysqliconn->prepare("INSERT INTO Records (SecGuardID, RecordTime, Altitude, Latitude, Longitude) VALUES (?, ?, ?, ?, ?);"); 
     $sqlstatement->bind_param("isddd", $gpsdata['secguardid'], $gpsdata['recordtime'], $gpsdata['altitude'], $gpsdata['latitude'], $gpsdata['longitude']); 
     $sqlstatement->execute(); 
