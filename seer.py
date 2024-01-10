@@ -24,28 +24,34 @@ def image_spoof(self, tile):
     img = img.convert(self.desired_tile_form)  # Convert the image format
     return img, self.tileextent(tile), 'lower' # Return the image, tile extent, and vertical alignment
 
+
 ################################
 #  parsing the GPS coordinates #
 ################################
 
 
 arduino_data = []
-with open('python/CP_GPS.csv','r') as dat_file:
+with open('CP_GPS.csv','r') as dat_file: # Open the CSV file named 'CP_GPS.CSV' in read
+    #Create a CSV reader object
     reader = csv.reader(dat_file)
     # Iterate over each row in the CSV file and append it to the arduino_data list
     for row in reader:
         arduino_data.append(row)
         
+# Extract the header from the arduino_data list
 header = arduino_data[0]  # header text
 
-# Initialize empty lists to store date, time, latitude, and longitude data
-date, time_vec, lats, lons = [], [], [], []
+# Initialize empty lists to store date, time, latitude, longitude, and altitude data
+date, time_vec, lats, lons, alts = [], [], [], [], []
 
+# Iterate through each row in arduino_data starting from the second row (index 1)
 for row in arduino_data[1:]:
+    # Extract date, time, latitude, longitude, and altitude from each row and append to respective lists
     date.append(row[0])
     time_vec.append(row[1])
-    lats.append(float(row[2]))  
-    lons.append(float(row[3]))  
+    lats.append(float(row[2]))  # Convert latitude to a floating-point number
+    lons.append(float(row[3]))  # Convert longitude to a floating-point number
+    alts.append(float(row[4]))  # Convert altitude to a floating-point number
 
 
 
@@ -99,11 +105,15 @@ ax1.add_image(osm_img, int(scale + 1))
 #         Plot the GPS points         #
 #######################################
 
-    
-for index in range(0,len(lons),5):
-    ax1.plot(lons[index],lats[index], markersize=10,marker='o',linestyle='',
-             color='Black',transform=ccrs.PlateCarree(),label='GPS Point') # plot points
-    transform = ccrs.PlateCarree()._as_mpl_transform(ax1) # set transform for annotations
-    plt.pause(1) # pause between point plots
-    plt.savefig('Images/map.png', format='png', dpi=300) # save the figure to a file
+for index in range(0, len(lons), 5):
+    ax1.plot(lons[index], lats[index], markersize=10, marker='o', linestyle='',
+             color='Black', transform=ccrs.PlateCarree(), label='GPS Point')  # plot points
+
+    # Add annotation with altitude information
+    ax1.text(lons[index], lats[index], f'Alt: {alts[index]:.2f} meters',
+             fontsize=10, color='red', transform=ccrs.PlateCarree(), ha='right', va='bottom')
+
+    transform = ccrs.PlateCarree()._as_mpl_transform(ax1)  # set transform for annotations
+
+    plt.pause(1)  # pause between point plots
    
