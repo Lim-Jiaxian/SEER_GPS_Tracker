@@ -1,8 +1,7 @@
 <?php
 // Detect the current session
 session_start();
-//Include the Page Layout header
-include("header.php");
+
 ?>
 <!-- Create a cenrally located container -->
 <div style="width:80%; margin:auto;">
@@ -11,7 +10,7 @@ include("header.php");
         <!-- 1st row - Header Row -->
         <div class="mb-3 row">
             <div class="col-sm-9 offset-sm-3">
-                <span class="page-title">Member Login</span>
+                <span class="page-title">Admin Login</span>
             </div>
         </div>
         <!-- 2nd row - Entry of email address -->
@@ -44,6 +43,5 @@ include("header.php");
     </form>
 </div>
 <?php
-//Include the Page Layout footer
-include("footer.php");
+
 ?>

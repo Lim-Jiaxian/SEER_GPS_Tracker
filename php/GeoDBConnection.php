@@ -6,7 +6,7 @@ $password = "";
 $database = "geotrackdb";
 
 //Establish connection to MySQL database
-$mysqliconn = mysqli_connect($serverhostname, $username, $password, $database);
+$conn = new mysqli($serverhostname, $username, $password, $database);
 //Check connection
 if ($mysqliconn->connect_error) {
     //Display error message and exit script
