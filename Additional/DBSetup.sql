@@ -17,6 +17,7 @@ CREATE TABLE Records (
 	Altitude FLOAT, 
 	Latitude FLOAT NOT NULL, 
 	Longitude FLOAT NOT NULL, 
+	Floor INT NOT NULL,
 	FOREIGN KEY (SecGuardID) REFERENCES SecGuard(SecGuardID)
 );
 
