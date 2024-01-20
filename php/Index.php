@@ -2,7 +2,7 @@
 // Detect the current session
 session_start();
 // Include the Page Layout header
-    echo "Hello World";
+    echo "Login Successfully";
 ?>
 
 
