@@ -59,10 +59,10 @@ if (isset($_POST["pwd1"])) {
 
 	
 	// To Do 4: Update the new password hash
-    include_once("mysql_conn.php");
-	$qry = "UPDATE shopper SET Password=? WHERE ShopperID=?";
+    include_once("GeoDBConnection.php");
+	$qry = "UPDATE adminlogin SET Password=? WHERE LoginID=?";
     $stmt = $conn ->prepare($qry);
-	$stmt-> bind_param("si", $newhashed, $shopperId);
+	$stmt-> bind_param("si", $newhashed, $loginId);
 	$stmt->execute();
 	$stmt->close();
 }
