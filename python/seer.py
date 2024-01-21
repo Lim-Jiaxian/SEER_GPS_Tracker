@@ -31,7 +31,8 @@ def image_spoof(self, tile):
 
 
 arduino_data = []
-with open('CP_GPS.csv','r') as dat_file: # Open the CSV file named 'CP_GPS.CSV' in read
+with open('python/CP_GPS.csv','r') as dat_file: # Open the CSV file named 'CP_GPS.CSV' in read
+#with open('CP_GPS.csv','r') as dat_file: # Open the CSV file named 'CP_GPS.CSV' in read
     #Create a CSV reader object
     reader = csv.reader(dat_file)
     # Iterate over each row in the CSV file and append it to the arduino_data list
@@ -51,7 +52,8 @@ for row in arduino_data[1:]:
     time_vec.append(row[1])
     lats.append(float(row[2]))  # Convert latitude to a floating-point number
     lons.append(float(row[3]))  # Convert longitude to a floating-point number
-    alts.append(float(row[4]))  # Convert altitude to a floating-point number
+    alts.append(float(row[4]))  # Convert altitude to a floating-point number 
+    
 
 
 
@@ -105,7 +107,7 @@ ax1.add_image(osm_img, int(scale + 1))
 #         Plot the GPS points         #
 #######################################
 
-for index in range(0, len(lons), 5):
+for index in range(0, len(lons), 5): #Re-Up to 5 once altitude exists.
     ax1.plot(lons[index], lats[index], markersize=10, marker='o', linestyle='',
              color='Black', transform=ccrs.PlateCarree(), label='GPS Point')  # plot points
 
