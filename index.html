@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project SEER</title>
     <link rel="stylesheet" href="css/styles.css">
+    <script src="javascript/IndexJavascript.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,600;0,700;1,200&display=swap" rel="stylesheet">
 </head>
@@ -40,6 +42,7 @@
             ...
             ...
         </p>
+        <button onclick="runSeer()"> Run Seer </button>
         <br><br>
     </div>
     <label for="guard">Select Security Guard:</label>
@@ -50,7 +53,7 @@
         <option value="c++">Tan Jun Yong</option>
         <option value="java">Keat Lim</option>
     </select>
-    
+
 
     <img src="{{ image }}" alt="Image" width="100%" height="100%">
 
