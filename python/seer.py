@@ -118,4 +118,8 @@ for index in range(0, len(lons), 5): #Re-Up to 5 once altitude exists.
     transform = ccrs.PlateCarree()._as_mpl_transform(ax1)  # set transform for annotations
 
     plt.pause(1)  # pause between point plots
+
+
+
+plt.savefig('images/plot.png')
    
