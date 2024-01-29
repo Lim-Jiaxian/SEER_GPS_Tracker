@@ -248,13 +248,25 @@ select:focus{
     width: 100%;
     text-align: center;
     color: #FFC92F;
+    
 }
+
+.about {
+    color: black;
+    background-color: white;
+    padding: 50px 0;
+    padding-right: 50px;
+    padding-left: 50px;
+}
+
+
+
 .sub-header h1{
     margin-top: 100px;
 }
 
 .about-us{
-    width: 80%;
+    width: 90%;
     margin: auto;
     padding-top: 80px;
     padding-bottom: 50px;
