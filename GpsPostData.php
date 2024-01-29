@@ -10,8 +10,8 @@ if ($_SERVER["REQUEST_METHOD"] == 'POST')
     $gpsdata = json_decode($json, true);
 
     //Prepare SQL statement for inserting data into database, followed by binding the parameters to the SQL statement and executing the sql statement
-    $sqlstatement = $mysqliconn->prepare("INSERT INTO Records (SecGuardID, RecordTime, Altitude, Latitude, Longitude, Floor) VALUES (?, ?, ?, ?, ?, ?);"); 
-    $sqlstatement->bind_param("isdddi", $gpsdata['secguardid'], $gpsdata['recordtime'], $gpsdata['altitude'], $gpsdata['latitude'], $gpsdata['longitude'], $gpsdata['floor']); 
+    $sqlstatement = $mysqliconn->prepare("INSERT INTO records (SecGuardID, SecBTAdrs, RecordTime, Altitude, Latitude, Longitude, Floor) VALUES (?, ?, ?, ?, ?, ?, ?);"); 
+    $sqlstatement->bind_param("issdddi", $gpsdata['secguardid'], $gpsdata['btmacaddress'], $gpsdata['recordtime'], $gpsdata['altitude'], $gpsdata['latitude'], $gpsdata['longitude'], $gpsdata['floor']); 
     $sqlstatement->execute(); 
 }
 else //If HTTP request method is not POST
