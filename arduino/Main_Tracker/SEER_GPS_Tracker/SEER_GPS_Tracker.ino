@@ -21,14 +21,17 @@
 //Barometric Sensor 
 #include <MS5611.h>
 
+//BluetoothSerial
+#include <BluetoothSerial.h>
 
 //Wifi network credentials
 const char* ssid = "K'11";
 const char* password = "a1357b24689";
 
 //Declaring the apache server address to php file for posting data
-const char* apacheServer = "http://192.168.43.190/seer/php/GpsPostData.php";
+const char* apacheServer = "http://192.168.43.93/seer/php/GpsPostData.php";
 //const char* apacheServer = "http://192.168.43.93/seer/php/GpsPostData.php";
+//const char* apacheServer = "http://192.168.43.190/GpsPostData.php";
 
 //Two Arduino pins for software serial
 int RXPin = 16;
@@ -50,24 +53,37 @@ TinyGPSPlus gps;
 //Create a software serial port for gpsSerial with the Arduino pins
 SoftwareSerial gpsSerial(RXPin, TXPin);
 
-
-
 //Reference pressure at sea level
 double referencePressure = 1013.25;
+//Reference pressure at sea level 1013.25 hPa, 101325 Pa
+
+//Create bluetooth serial object
+BluetoothSerial SerialBT;
+
+//Create a string to store the bluetooth mac address
+String bluetoothMacAddress = "";
+
+
 
 void setup()
 {
-  //Start the Arduino hardware serial port at 9600 baud
+  //Start the arduino hardware serial port at 9600 baud
   Serial.begin(9600);
   //Start the software serial port at the GPS's default baud
   gpsSerial.begin(GPSBaud);
   //Initialize I2C communication via SDA & SCL pins for batometric sensor
   Wire.begin(sda, scl);
 
+  //Set bluetooth name for ESP32
+  SerialBT.begin("SEER Tracker ESP32 Bluetooth"); 
+  //Set the callback function to handle incoming Bluetooth connections
+  SerialBT.register_callback(handleBluetoothConnection);
+
   //Connect to wifi network
   WiFi.mode(WIFI_STA); 
   WiFi.begin(ssid, password);
   Serial.println("\nConnecting");
+  //while loop to check wifi connection
   while(WiFi.status() != WL_CONNECTED) //Not connected to wifi
   {
     Serial.print(".");
@@ -78,15 +94,46 @@ void setup()
   Serial.println(WiFi.localIP());
 }
 
+//Function to handle bluetooth connections events
+//esp_spp_cb_event_t parameter specifies the Bluetooth event
+//esp_spp_cb_param_t parameter holds information about the event
+void handleBluetoothConnection(esp_spp_cb_event_t event, esp_spp_cb_param_t *param) {
+  //Checks if bluetooth connection is successful
+  if (event == ESP_SPP_SRV_OPEN_EVT) {
+    //Set bluetooth mac address to empty (Main program will loop to check bluetooth connection)
+    bluetoothMacAddress = "";
+    Serial.println("Bluetooth device connected!");
+    //Obtain the bluetooth device mac address and store it to a 8-bit integer data type
+    uint8_t* deviceMacAddress = param->srv_open.rem_bda;
+    //Serial.print("Bluetooth MAC Address: ");
+
+    //For loop to check each mac address byte (6)
+    for (int i = 0; i < 6; i++) {
+      //Convert each byte to a two-digit hexadecimal string, concatenate and add to string
+      bluetoothMacAddress += String(deviceMacAddress[i], HEX);
+      //Add a colon between bytes (except for the last hexadecimal)
+      if (i < 5) {
+        bluetoothMacAddress += ":";
+      }
+    }
+  }
+  else//bluetooth connection not successful
+  {
+    //Set bluetooth mac address to empty
+    bluetoothMacAddress = "";
+  }
+}
+
 //Display captured records of Altitude, Latitude and Longtitude
 void displayInfo(TinyGPSDate& dtDate, TinyGPSTime& dtTime, double& baroAlt, double& gpsLat, double& gpsLng, int& estiFlr) //Variable references in the function
 {
-  if(ms5611.isConnected() == true) //Check if MS5611 Barometric sensor is connected
+  //Check if MS5611 Barometric sensor is connected
+  if(ms5611.isConnected() == true) 
   {
     //Obtain pressure readings
     long bmpPressure = ms5611.getPressure();
 
-    //International Barometric formula to calculate altitude 
+    //International Standard Atmosphere (ISA) formula formula to calculate altitude 
     //h = 44330 * [1 - (p / p0)^(1/5.255)] 
     //h = altitude 
     //p = pressure in pascals (Pa)
@@ -95,50 +142,66 @@ void displayInfo(TinyGPSDate& dtDate, TinyGPSTime& dtTime, double& baroAlt, doub
     //Calculate altitude
     double bmpAltitude = 44330.0 * (1 - pow(bmpPressure/ referencePressure, 1 / 5.255)); 
 
-    //Calculate estimated floor level from dividing altitude by 3. Assuming each floor has a difference of 3 meters.
-    estiFlr = round((bmpAltitude / 3));
-    if(estiFlr < 0) //Checks if altitude divide by 3 falls below 0
+    //Ground altitude above sea level from survey
+    double grndAltitude = 32.10; //17
+    //Elevation / altitude above sea level for Ngee Ann Polytechnic
+    //double grndAltitude = 32.10; 
+    //Elevation / altitude above sea level for blk 31 & 27 in Ngee Ann Polytechnic
+    //double grndAltitude = 36.50;
+
+    //Update value of altitude from barometric pressure subtracted by elevation / altitude above sea level
+    baroAlt = bmpAltitude - grndAltitude;
+
+    //Calculate estimated floor level from dividing altitude by 4. Assuming each floor has a difference of 4 meters.
+    estiFlr = round((baroAlt / 4));
+    //Checks if altitude divided by 4 falls below 0
+    if(estiFlr < 0) 
     {
-      estiFlr = 0; //Change the estimated floor to 0 which is ground level
+      //Change the estimated floor to 0 which is ground level
+      estiFlr = 1; 
     }
+    Serial.print("Device Bluetooth Mac Address: ");
+    Serial.println(bluetoothMacAddress);
     Serial.print("Current estimated floor: ");
     Serial.print(estiFlr);
     Serial.println(" level");
     Serial.print("Altitude: ");
-    Serial.print(bmpAltitude);
+    Serial.print(baroAlt);
     Serial.println(" meters");
-    baroAlt = bmpAltitude; //Update variable to value of altitude
   }
   else
   {
     Serial.println("Barometric Altitude: Not Available");
   }
 
-  if (gps.location.isValid()) //If location is valid
+  //Check if GPS location is valid
+  if (gps.location.isValid()) 
   {
     Serial.print("Latitude: ");
     Serial.println(gps.location.lat(), 6);
-    gpsLat = gps.location.lat(); //Update variable to the value of latitude
+    //Update variable to the value of latitude
+    gpsLat = gps.location.lat(); 
     Serial.print("Longitude: ");
     Serial.println(gps.location.lng(), 6); 
-    gpsLng = gps.location.lng(); //Update variable to the value of longitude
+    //Update variable to the value of longitude
+    gpsLng = gps.location.lng(); 
   }
   else
   {
     Serial.println("Location: Not Available");
   }
 
-  
-  
   Serial.print("Date: ");
-  if (gps.date.isValid()) //If date is valid
+  //Check if date is valid
+  if (gps.date.isValid())
   {
     Serial.print(gps.date.day());
     Serial.print("/");
     Serial.print(gps.date.month());
     Serial.print("/");
     Serial.println(gps.date.year());
-    dtDate = gps.date; //Variable to store date from gps
+    //Variable to store date from gps
+    dtDate = gps.date; 
   }
   else
   {
@@ -147,16 +210,22 @@ void displayInfo(TinyGPSDate& dtDate, TinyGPSTime& dtTime, double& baroAlt, doub
 
   //Print time of captured GPS coordinates
   Serial.print("Time: ");
-  dtTime = gps.time; //Variable to store time from gps
+  //Variable to store time from gps
+  dtTime = gps.time; 
+
+  //Check if GPS time is valid
   if (gps.time.isValid())
   {
-    if ((gps.time.hour() + 8) >= 24 ) //Checks if hour exceeds 24 when being represented in 24 hour format
+    //Checks if hour exceeds 24 when being represented in 24 hour format
+    if ((gps.time.hour() + 8) >= 24 ) 
     {
-      Serial.print((gps.time.hour() + 8) - 24); //Deduct 24 to remain in 24 hour format
+      //Deduct 24 to remain in 24 hour format
+      Serial.print((gps.time.hour() + 8) - 24); 
     }
     else
     {
-      Serial.print(gps.time.hour() + 8); //Add 8 to remain in 24 hour format
+      //Add 8 to remain in 24 hour format
+      Serial.print(gps.time.hour() + 8); 
     }
     Serial.print(":");
     Serial.print(gps.time.minute());
@@ -177,20 +246,39 @@ void displayInfo(TinyGPSDate& dtDate, TinyGPSTime& dtTime, double& baroAlt, doub
 //Main loop for ESP32
 void loop()
 {
-  //Declare variables
+  //SerialBT.register_callback(handleBluetoothConnection);
+  //Initialise variables
   TinyGPSDate dtDate; //dtDate to store date from TinyGPSDate
   TinyGPSTime dtTime; //dtTime to store time from TinyGPSTime
   double baroAlt; //Barometric Altitude
   double gpsLat; //GPS Latitude
   double gpsLng; //GPS Longitude
   int estiFlr; //Estimated floor from altitude
-  int hourtime = 0;
+  int hourtime = 0; //Hourtime
+
+  //while loop to check wifi connection
+  while(WiFi.status() != WL_CONNECTED) //Not connected to wifi
+  {
+    Serial.println("Wifi connection not established with SEER Tracker");
+    delay(100);
+  }
+
+  //Set the callback function to handle incoming Bluetooth connections
+  SerialBT.register_callback(handleBluetoothConnection);
+
+  //while loop to check bluetooth connection
+  while(bluetoothMacAddress.length() == 0)
+  {
+    Serial.println("Bluetooth connection not established with SEER Tracker");
+    delay(100);
+  }
 
 
   //Barometric Pressure Sensor
   //Initialize the MS5611 sensor module
   ms5611.begin();
-  if(ms5611.isConnected() == true) //Check if MS5611 Barometric sensor is connected
+  //Check if MS5611 Barometric sensor is connected
+  if(ms5611.isConnected() == true) 
   {
     //Reads the data from the MS5611 sensor module
     ms5611.read();
@@ -202,51 +290,73 @@ void loop()
   }
 
 
-
   //GPS Tracker
   //Displays information every time a new sentence is correctly encoded.
   while (gpsSerial.available() > 0)
   {
     if (gps.encode(gpsSerial.read()))
     {
+      //Function to display information & update GPS values
       displayInfo(dtDate, dtTime, baroAlt, gpsLat, gpsLng, estiFlr);
-      String outputJSON; //String to store JSON
-      DynamicJsonDocument doc(200); //Serialization of data in JSON
-      doc["secguardid"] = 1; //Set security guard id
+      //String to store JSON
+      String outputJSON; 
+      //Create JSON doc of 200 bytes
+      DynamicJsonDocument doc(200); 
+      //Set security guard id 
+      doc["secguardid"] = 1;
+      //Set security guard's bluetooth mac address from mobile
+      doc["btmacaddress"] = bluetoothMacAddress;
+
+      //Check if date & time is valid
       if (dtDate.isValid() && dtTime.isValid())
       {
-        if((dtTime.hour() + 8) >= 24) //Checks if hour exceeds 24 when being represented in 24 hour format
+        //Checks if hour exceeds 24 when being represented in 24 hour format
+        if((dtTime.hour() + 8) >= 24) 
         {
-          hourtime = ((dtTime.hour() + 8) - 24); //Deduct 24 to remain in 24 hour format
+          //Deduct 24 to remain in 24 hour format
+          hourtime = ((dtTime.hour() + 8) - 24); 
         }
         else
         {
-          hourtime = dtTime.hour() + 8; //Add 8 to remain in 24 hour format
+          //Add 8 to remain in 24 hour format
+          hourtime = dtTime.hour() + 8; 
         }
-        char dt[30]; //A character array to store date time
+        //A character array to store date time
+        char dt[30]; 
         //Format the date and time string and store it in the dt array
         sprintf(dt, "%02u-%02u-%04u %02u:%02u:%02u", dtDate.year(), dtDate.month(), dtDate.day(), hourtime, dtTime.minute(), dtTime.second()); 
-        doc["recordtime"] = String(dt); //Assign the formatted date and time string to a JSON document with the key "recordtime"
+        //Assign the formatted date and time string to a JSON document with the key "recordtime"
+        doc["recordtime"] = String(dt); 
       }
+      //Checks if GPS location is valid
       if (gps.location.isValid())
       {
+        //Assign the Geolocation value to JSON document keys
         doc["altitude"] = baroAlt;
         doc["latitude"] = gpsLat;
         doc["longitude"] = gpsLng;
         doc["floor"] = estiFlr;
       }
-      serializeJson(doc, outputJSON); //Serialize the JSON into a string, storing it in outputJSON
-      Serial.println(outputJSON); //Print JSON
+      //Serialize the JSON into a string, storing it in outputJSON
+      serializeJson(doc, outputJSON); 
+      //Print JSON
+      Serial.println(outputJSON); 
 
       //Check for wifi connection before sending data out as JSON
       if(WiFi.status() == WL_CONNECTED)
       {
-        WiFiClient client; //Initialise variable client from wificlient lib
-        HTTPClient http; //Initialise variable http from httpclient lib
-        http.begin(client, apacheServer); //Initiate a http request with the apache server
-        http.addHeader("Content-Type", "application/json"); //Declare json format
-        int responseCodeHttp = http.POST(outputJSON); //Variable to obtain http response code
-        if(responseCodeHttp >= 200 && responseCodeHttp <= 299) //Checks if the http response code is successful from 200 - 299
+        //Initialise wificlient object
+        WiFiClient client; 
+        //Initialise httpclient object
+        HTTPClient http; 
+        //Begin http request with the apache server
+        http.begin(client, apacheServer); 
+        //Declare JSON format
+        http.addHeader("Content-Type", "application/json"); 
+        //Variable to obtain http response code
+        int responseCodeHttp = http.POST(outputJSON); 
+        //Checks if the http response code is successful from 200 - 299
+        if(responseCodeHttp >= 200 && responseCodeHttp <= 299) 
         {
           Serial.print("JSON output delivered to apache server. ");
         }else
@@ -257,8 +367,9 @@ void loop()
       }
     }
   }
-      
-  if (millis() > 5000 && gps.charsProcessed() < 10)//If 5000 milliseconds has passed without characters being processed from the gps, it indicates that no GPS is detected.
+
+  //Check if 5000 milliseconds has passed without characters being processed from the gps, indicating that no GPS is detected.
+  if (millis() > 5000 && gps.charsProcessed() < 10)
   {
     Serial.println("No GPS detected");
   }

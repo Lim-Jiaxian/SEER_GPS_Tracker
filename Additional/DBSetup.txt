@@ -16,7 +16,7 @@ CREATE TABLE Records (
 	SecGuardID INT NOT NULL, 
 	SecBTAdrs VARCHAR(17) NOT NULL,
 	RecordTime DATETIME NOT NULL, 
-	Altitude FLOAT, 
+	Altitude FLOAT NOT NULL, 
 	Latitude FLOAT NOT NULL, 
 	Longitude FLOAT NOT NULL, 
 	Floor INT NOT NULL,
