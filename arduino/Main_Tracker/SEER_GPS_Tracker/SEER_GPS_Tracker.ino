@@ -29,7 +29,7 @@ const char* ssid = "K'11";
 const char* password = "a1357b24689";
 
 //Declaring the apache server address to php file for posting data
-const char* apacheServer = "http://192.168.43.93/seer/php/GpsPostData.php";
+const char* apacheServer = "http://192.168.43.93/seer/GpsPostData.php";
 //const char* apacheServer = "http://192.168.43.93/seer/php/GpsPostData.php";
 //const char* apacheServer = "http://192.168.43.190/GpsPostData.php";
 
@@ -133,31 +133,30 @@ void displayInfo(TinyGPSDate& dtDate, TinyGPSTime& dtTime, double& baroAlt, doub
     //Obtain pressure readings
     long bmpPressure = ms5611.getPressure();
 
-    //International Standard Atmosphere (ISA) formula formula to calculate altitude 
+    //International Standard Atmosphere (ISA) / Barometric formula to calculate altitude 
     //h = 44330 * [1 - (p / p0)^(1/5.255)] 
     //h = altitude 
     //p = pressure in pascals (Pa)
     //p0 = reference pressure at sea level
 
-    //Calculate altitude
-    double bmpAltitude = 44330.0 * (1 - pow(bmpPressure/ referencePressure, 1 / 5.255)); 
+    //Calculate barometric altitude using ISA / Barometric formula
+    baroAlt = 44330.0 * (1 - pow(bmpPressure/ referencePressure, 1 / 5.255)); 
 
-    //Ground altitude above sea level from survey
-    double grndAltitude = 32.10; //17
-    //Elevation / altitude above sea level for Ngee Ann Polytechnic
-    //double grndAltitude = 32.10; 
+    //Average elevation / altitude above sea level around Ngee Ann Polytechnic at ground level from GEO survey
+    double elvaAltitude = 32.10; //If altitude readings are slightly off due to weather conditions, use altitude reading of 17.
     //Elevation / altitude above sea level for blk 31 & 27 in Ngee Ann Polytechnic
-    //double grndAltitude = 36.50;
+    //double elvaAltitude = 36.50;
 
-    //Update value of altitude from barometric pressure subtracted by elevation / altitude above sea level
-    baroAlt = bmpAltitude - grndAltitude;
-
+    //Calculate estimated floor level
+    //Current altitude difference = Barometric altitude - Elevation altitude
+    //Round the floor level to a single digit after dividing the difference in altitude by 2.5. Assuming each floor has a difference of 2.5 meters.
+    estiFlr = round(((baroAlt - elvaAltitude) / 2.5));
     //Calculate estimated floor level from dividing altitude by 4. Assuming each floor has a difference of 4 meters.
-    estiFlr = round((baroAlt / 4));
-    //Checks if altitude divided by 4 falls below 0
+    //estiFlr = round(((baroAlt - elvaAltitude) / 4));
+    //Checks if altitude divided by floor difference (meters) falls below 0
     if(estiFlr < 0) 
     {
-      //Change the estimated floor to 0 which is ground level
+      //Change the estimated floor to 1 which is ground level
       estiFlr = 1; 
     }
     Serial.print("Device Bluetooth Mac Address: ");
