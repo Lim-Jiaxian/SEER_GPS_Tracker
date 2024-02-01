@@ -15,11 +15,11 @@
 <body>
         <section class="sub-header">
           <nav>
-              <a href="index.html"><img src="Images/SEER (Name Ver).png"></a>
+              <a href="index.php"><img src="Images/SEER (Name Ver).png"></a>
               <div class="nav-links">
                   <ul>
-                      <li><a href="index.html">HOME</a></li>
-                      <li><a href="about.html">ABOUT</a></li>
+                      <li><a href="index.php">HOME</a></li>
+                      <li><a href="about.php">ABOUT</a></li>
                       <li><a href="">SERVICES</a></li>
                       <li><a href="">CONTACT</a></li> 
                       <li><a href="login.html">LOGIN</a></li>    

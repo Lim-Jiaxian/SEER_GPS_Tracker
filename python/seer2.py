@@ -11,6 +11,8 @@ from PIL import Image
 plt.ion()
 import pandas as pd
 from sqlalchemy import create_engine
+import sys  
+
 
 # Replace the placeholder values with your actual database credentials
 servername = 'localhost'
@@ -23,7 +25,6 @@ engine = create_engine(connection_string)
 qry = 'SELECT * FROM records;'
 df = pd.read_sql_query(qry,engine)
 
-
 # You can use the DataFrame columns to access specific data
 recordid = df['RecordID'].tolist()
 secguard = df['SecGuardID'].tolist()
@@ -32,6 +33,7 @@ alts = df['Altitude'].tolist()
 lats = df['Latitude'].tolist()
 lons = df['Longitude'].tolist()
 floors = df['Floor'].tolist()
+
 
 def image_spoof(self, tile): 
     api_url = self._image_url(tile) # get the url of the street map API
@@ -43,6 +45,8 @@ def image_spoof(self, tile):
     img = Image.open(im_data) # open image using PIL
     img = img.convert(self.desired_tile_form)  # Convert the image format
     return img, self.tileextent(tile), 'lower' # Return the image, tile extent, and vertical alignment
+
+
 
 cimgt.GoogleTiles.get_image = image_spoof # Spoof the web request for street map
 osm_img = cimgt.GoogleTiles() # Download the spoofed street map using the GoogleTiles class
@@ -93,7 +97,8 @@ for index in range(0, len(lons), 5):
         ax1.text(lons[index], lats[index], annotation_text,
                  fontsize=10, color='red', transform=ccrs.PlateCarree(), ha='right', va='bottom')
 
-        plt.pause(1)
+        plt.pause(0.01)
 else:
     print("Error: lons or lats list is empty.")
 
+plt.savefig('Images/plot.png')

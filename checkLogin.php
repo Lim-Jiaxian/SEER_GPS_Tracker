@@ -19,7 +19,7 @@ if ($result->num_rows > 0) {
     $_SESSION["LoginID"] = $row["LoginID"];
 
     //Redirect to home page
-    header("Location: index.html");
+    header("Location: index.php");
     exit;
 }
 else {

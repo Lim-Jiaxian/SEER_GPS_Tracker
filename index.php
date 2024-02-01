@@ -13,16 +13,26 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,600;0,700;1,200&display=swap" rel="stylesheet">
 </head>
 
+<?php
+
+session_start();
+
+include_once("GeoDBConnection.php");
+
+$query = "SELECT SecGuardID, Name FROM secguard";
+$result = $conn->query($query);
+
+?>
 
 
 <body>
     <section class="header">
         <nav>
-            <a href="index.html"><img src="Images/SEER (Name Ver).png"></a>
+            <a href="index.php"><img src="Images/SEER (Name Ver).png"></a>
             <div class="nav-links">
                 <ul>
-                    <li><a href="index.html">HOME</a></li>
-                    <li><a href="about.html">ABOUT</a></li>
+                    <li><a href="index.php">HOME</a></li>
+                    <li><a href="about.php">ABOUT</a></li>
                     <li><a href="">SERVICES</a></li>
                     <li><a href="">CONTACT</a></li> 
                     <li><a href="login.html">LOGIN</a></li> 
@@ -38,15 +48,32 @@
         <p>
             - Select Security Guard's name to track pathway -
         </p><br>
+        
         <label for="guard">Select Security Guard:</label> 
-        <select required name="guard" id="guard"> 
-            <option value="javascript">Tan Ah Beng</option>
-            <option value="python">Lim Peck Gao</option>
-            <option value="c++">Tan Jun Yong</option>
-            <option value="java">Keat Lim</option>
-        </select>
+        <form action="" method="post">
+            <select required name="guard" id="guard"> 
+                <?php
+                // Check if there are any rows in the result set
+                if ($result->num_rows > 0) {
+                    // Loop through each row and generate an option element
+                    while ($row = $result->fetch_assoc()) {
+                        $id = $row['SecGuardID'];
+                        $name = $row['Name'];
+                        echo "<option value='$id'>$name</option>";
+                    }
+                } 
+                else {
+                    echo "<option value='' disabled>No options available</option>";
+                }
+        
+                // Close the database connection
+                $conn->close();
+                ?>
+            </select>
+            <input type="submit" value="Submit">
+        </form>
         <p>
-            <img src="Images/plot.png" alt="Image" width="100%" height="80%">
+           <!-- <img src="Images/plot.png" alt="Image" width="100%" height="80%"> -->
         </p>
         <button onclick="runSeer()"> Run Seer </button>
         <br><br>
