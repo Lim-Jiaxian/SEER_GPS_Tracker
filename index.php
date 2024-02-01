@@ -19,7 +19,7 @@ session_start();
 
 include_once("GeoDBConnection.php");
 
-$query = "SELECT SecGuardID, Name FROM secguard";
+$query = "SELECT * FROM secguard";
 $result = $conn->query($query);
 
 ?>
@@ -46,34 +46,14 @@ $result = $conn->query($query);
         <!--<img src="" height="250" width="600" class="center">
         <img src="" class="center">-->
         <p>
-            - Select Security Guard's name to track pathway -
+            -  Security Guard's pathway  -
         </p><br>
         
-        <label for="guard">Select Security Guard:</label> 
-        <form action="" method="post">
-            <select required name="guard" id="guard"> 
-                <?php
-                // Check if there are any rows in the result set
-                if ($result->num_rows > 0) {
-                    // Loop through each row and generate an option element
-                    while ($row = $result->fetch_assoc()) {
-                        $id = $row['SecGuardID'];
-                        $name = $row['Name'];
-                        echo "<option value='$id'>$name</option>";
-                    }
-                } 
-                else {
-                    echo "<option value='' disabled>No options available</option>";
-                }
+
         
-                // Close the database connection
-                $conn->close();
-                ?>
-            </select>
-            <input type="submit" value="Submit">
-        </form>
         <p>
-           <!-- <img src="Images/plot.png" alt="Image" width="100%" height="80%"> -->
+          <img src="Images\plot_SecGuardID_1.png" alt="Image" width="100%" height="80%">
+          <img src="Images\plot_SecGuardID_2.png" alt="Image" width="100%" height="80%">
         </p>
         <button onclick="runSeer()"> Run Seer </button>
         <br><br>
