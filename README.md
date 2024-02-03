@@ -30,7 +30,7 @@ However, the altitude readings is subjected to change based on external factors.
 
 ### Logical Diagram of SEER Tracker
 
-![Logical Diagram](../SEER_GPS_Tracker/Images/Logical_Diagram.PNG)
+![Logical Diagram](https://github.com/Lim-Jiaxian/SEER_GPS_Tracker/blob/main/Images/Logical_Diagram.PNG)
 
 #### Summary of logical diagram
 
