@@ -131,6 +131,7 @@ nav img{
 }
 .nav-links{
     flex: 1;
+    overflow: hidden;
     text-align: right;
 }
 .nav-links ul li{
@@ -152,6 +153,20 @@ nav img{
     display: block;
     margin: block;
 }
+
+.nav-links a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* Hide the link that should open and close the nav.nav-links on small screens */
+.nav-links .icon {
+    display: none;
+}
+
+
+
+
 
 .row{
     margin-top: 5%;
@@ -175,9 +190,10 @@ h2, h3{
     justify-content: center;
 }
 
-.home-post{
+/*-- Home Page --*/
+.home-post, .seer-map {
     margin: auto;
-    width: 850px;
+    max-width: 850px; /* changed from width to max-width */
     flex-basis: 30%;
     border-radius: 20px;
     margin-top: 5%;
@@ -186,36 +202,35 @@ h2, h3{
     box-sizing: border-box;
     word-wrap: break-word;
 }
-.seer-map{
-    margin: auto;
-    height: 100%;
-    width: 850px;
-    flex-basis: 30%;
-    border-radius: 20px;
-    margin-top: 5%;
-    margin-bottom: 5%;
-    padding: 20px 50px;
-    box-sizing: border-box;
-    word-wrap: break-word;
-}
+
 .blog-post p{
     text-align: center;
     font-size: 1vw;
     font-weight: 500;
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
-img{
-    border-radius: 5px;
-    float: left;
+.home-post img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
 }
-@media only screen and (max-width: 900px) {
-    .blog-post{
-        width: 80%;
+
+.plot_img {
+    max-width: 100%;
+    height: auto;
+}
+
+@media screen and (max-width: 600px) {
+    .home-post {
+        padding: 10px;
     }
-    .blog-post p{
-        font-size: 2vw;;
+
+    .footer {
+        padding: 10px;
     }
 }
+
+
 
 .footer {
     position: fixed;
@@ -242,50 +257,31 @@ select:focus{
 
 
 <!----- About Us page ----->
-
-.sub-header{
-    height: 50vh;
-    width: 100%;
-    text-align: center;
-    color: #FFC92F;
-    
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 .about {
-    color: black;
-    background-color: white;
-    padding: 50px 0;
-    padding-right: 50px;
-    padding-left: 50px;
-}
-
-
-
-.sub-header h1{
-    margin-top: 100px;
-}
-
-.about-us{
-    width: 90%;
-    margin: auto;
-    padding-top: 80px;
-    padding-bottom: 50px;
-}
-
-.about-col{
-    flex-basis: 4%;
+    flex-basis: 50%;
     padding: 30px 2px;
 }
 
-.about-col img{
+.about img {
     width: 100%;
-
 }
 
-.about-col h1{
+.about h1 {
     padding-top: 0;
 }
 
-.about-col p{
+.about p {
     padding: 15px 0 25px;
+}
+
+@media screen and (max-width: 600px) {
+    .about {
+        flex-basis: 100%;
+    }
 }
