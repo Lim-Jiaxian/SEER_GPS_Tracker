@@ -53,8 +53,10 @@ $result = $conn->query($query);
 
         
         <p>
-          <img src="Images\plot_SecGuardID_1.png" alt="Image" width="100%" height="80%">
-          <img src="Images\plot_SecGuardID_2.png" alt="Image" width="100%" height="80%">
+        <img src="Images/Individual_Plots/plot_SecGuardID_1.png" alt="Image">
+          <img src="Images/Individual_Plots/plot_SecGuardID_2.png" alt="Image">
+          <!-- <img src="Images\plot_SecGuardID_1.png" alt="Image" width="100%" height="80%">
+          <img src="Images\plot_SecGuardID_2.png" alt="Image" width="100%" height="80%"> -->
         </p>
         <button onclick="runSeer()"> Run Seer </button>
         <br><br>
