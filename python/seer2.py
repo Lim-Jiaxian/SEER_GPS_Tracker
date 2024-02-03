@@ -96,31 +96,28 @@ for secguard in secguards:
         ax1.add_image(osm_img, int(scale + 1))
 
  
-        # Define a colormap based on the number of unique floors
         floor_colormap = plt.cm.get_cmap('viridis', len(secguard_df['Floor'].unique()))
 
         for index in range(0, len(secguard_df['Longitude']), 5):
             floor_color = floor_colormap(secguard_df['Floor'].iloc[index] / len(secguard_df['Floor'].unique()))
             ax1.plot(secguard_df['Longitude'].iloc[index], secguard_df['Latitude'].iloc[index], markersize=10,
-                marker='o', linestyle='', color=floor_color, transform=ccrs.PlateCarree(), label='GPS Point')
+                    marker='o', linestyle='', color=floor_color, transform=ccrs.PlateCarree(), label='GPS Point')
 
-            plt.pause(0.15)
-
+            plt.pause(1)  # Adjust the pause duration
 
         # Create a legend
         handles = []
-        labels = []
 
         for floor in secguard_df['Floor'].unique():
             floor_color = floor_colormap(floor / len(secguard_df['Floor'].unique()))
             handles.append(plt.Line2D([0], [0], marker='o', color=floor_color, label=f'Floor {floor}', markersize=10, markerfacecolor=floor_color))
 
-        labels.append('Floors')
-        ax1.legend(handles=handles, labels=labels, loc='upper left', bbox_to_anchor=(1, 1), title='Legend', fontsize=10)
+        ax1.legend(handles=handles, loc='upper left', bbox_to_anchor=(1, 1), title='Legend', fontsize=10)
 
         # Save individual plots
         plt.savefig(f'{individual_plots_directory}/plot_SecGuardID_{secguard}.png')
         plt.show()
+
 
     else:
         print("Error: lons or lats list is empty.")

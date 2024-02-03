@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route('/run-script', methods=['POST'])
 def home():
-    subprocess.run(["python", "python\seer2.py"])
+    subprocess.run(["python", "python/seer2.py"])
     return jsonify({'message': 'success'})
     #return send_file('images/plot.png', mimetype='image/png')
 
