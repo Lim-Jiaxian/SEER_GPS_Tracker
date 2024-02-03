@@ -1,0 +1,73 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project SEER</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="javascript/IndexJavascript.js"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,600;0,700;1,200&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <section class="sub-header">
+        <nav>
+            <a href="index.php"><img src="Images/SEER (Name Ver).png"></a>
+            <div class="nav-links">
+              <ul class="nav-links">
+                  <li><a href="index.html">HOME</a></li>
+                  <li><a href="about.html">ABOUT</a></li>
+                  <li><a href="contact.html">CONTACT</a></li>
+                  <li><a href="login.html">LOGIN</a></li>
+                  </a>
+              </ul>
+            </div>
+        </nav>
+    </section>
+
+    <section style="background-image: url(images/Agreement.jpg);" class="contact">
+        <h1> Partner With Us </h1>
+        <p>
+            <h2> Your Third Eye in Security </h2>
+            <p> 
+                Join our list of satisfied clients and experience the 
+                peace of mind that comes with knowing your security is 
+                in good hands. Reach out to us to integrate SEER into 
+                your security system today.
+                <br>
+            </p>
+        </p>
+    </section>  
+      
+    <section class="contact">
+        <h1>Get in Touch</h1>
+        <p>
+            <div class="form-box">
+            <form action="javascript:void(0)" method="post" onsubmit="submitForm();">
+                <label for="fname"> First name:</label><br>
+                <input type="text" id="fname" name="fname" required><br>
+
+                <label for="lname"> Last name:</label><br>
+                <input type="text" id="lname" name="lname" required><br><br>
+
+                <label for="email"> Email:</label><br>
+                <input type="text" id="email" name="email"><br><br>
+
+                <label for="message" aria-required="true" >Message:</label><br>
+                <textarea id="message" name="message" rows="6" cols="60" required></textarea><br><br>
+
+                <input type="submit" value="Submit">
+              </form> 
+            </div>
+        </p>
+    </section>
+    
+    <script>
+    function submitForm() {
+      alert("Submission successful");
+      document.querySelector('form').reset();
+    }
+    </script>
+</body>

@@ -268,6 +268,7 @@ select:focus{
     flex-basis: 50%;
     padding: 30px 2px;
     background-color: white;
+    padding-left: 2%;
 }
 
 .about img {
@@ -290,12 +291,102 @@ select:focus{
 
 @media screen and (min-width: 768px) {
     .about p {
-        font-size: 18px; /* slightly larger font size for medium screens */
+        font-size: 24px; /* slightly larger font size for medium screens */
+    }
+
+    .about h1 {
+        font-size: 40px; /* larger font size for medium screens */
     }
 }
 
 @media screen and (min-width: 1024px) {
     .about p {
-        font-size: 20px; /* even larger font size for large screens */
+        font-size: 32px; /* even larger font size for large screens */
+    }
+    
+    .about h1 {
+        font-size: 42px; /* even larger font size for large screens */
+    }
+}
+
+
+/*-- Contact Page --*/
+.contact{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    box-sizing: border-box;
+    flex-direction: column;
+    background-size: cover;
+    background-position: center;
+    font-weight:  bold;
+
+}
+
+.contact h1 {
+    font-size: 60px;
+    text-align: center;
+    margin-bottom: 20px;
+
+}
+
+.contact h2 {
+    font-size: 34px;
+    text-align: center;
+    margin-bottom: 20px;
+
+}
+
+.contact p {
+    font-size: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    padding-left: 34%;
+    padding-right: 34%;
+}
+
+.contact-wrapper {
+    width: 420px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .2);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    color: #fff;
+    border-radius: 10px;
+    padding: 30px 40px;
+}
+
+@media (max-width: 768px) {
+    .contact {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        font-size: 12px;
+        width: 100%;
+    }
+
+    .contact h1 {
+        font-size: 28px; /* adjust as needed */
+    }
+
+    .contact h2 {
+        font-size: 18px; /* adjust as needed */
+    }
+
+    .contact p {
+        font-size: 12px; /* adjust as needed */
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    #message {
+        width: 100%; /* adjust as needed */
+        /* other styles as needed */
+    }
+
+    #text {
+       width: 100%; /* adjust as needed */
     }
 }
