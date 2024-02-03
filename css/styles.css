@@ -285,3 +285,15 @@ select:focus{
         flex-basis: 100%;
     }
 }
+
+@media screen and (min-width: 768px) {
+    .about p {
+        font-size: 18px; /* slightly larger font size for medium screens */
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .about p {
+        font-size: 20px; /* even larger font size for large screens */
+    }
+}
