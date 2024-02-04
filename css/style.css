@@ -12,10 +12,35 @@
   word-wrap: break-word;
 }
 
+.home-post h2{
+  text-align: center;
+  font-weight: bolder;
+  color:goldenrod;
+}
+
 .home-post p{
+  text-align: center;
   color: white;
 }
 
+button{
+  margin: auto;
+  text-align: center;
+  background-color: #f0c14b;
+  color: white;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover{
+  background-color: white;
+  color: black;
+  border-color: #f0c14b;
+}
 
 .home-post img {
   width: 100%;
@@ -433,6 +458,11 @@ a.icon {
   padding: 62px 20px 62px 20px;
 }
 
+.header-thumb h3{
+  font-weight: bolder;
+  color: #f0c14b;
+}
+
 .header-one .header-thumb,
 .header-two .header-thumb,
 .header-three .header-thumb,
@@ -450,8 +480,8 @@ a.icon {
 }
 
 .header-one {
-  background: url('../images/header-bg.jpg') no-repeat;
-  height: 60vh !important;
+  background: url('../images/SEER_Province.PNG') no-repeat;
+  height: 30vh !important;
   min-height: 520px;
   padding-top: 150px !important;
 }
