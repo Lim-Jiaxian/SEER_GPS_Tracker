@@ -51,8 +51,8 @@ lat_zoom = 0.0005  # Decreased zoom for latitude
 lon_zoom = 0.0025  # Decreased zoom for longitude
 
 # Create a directory for individual plots
-individual_plots_directory = '../seer/Images/Individual_Plots/'
-# individual_plots_directory = 'Images/Individual_Plots/'
+#individual_plots_directory = '../seer/Images/Individual_Plots/'
+individual_plots_directory = 'Images/Individual_Plots/'
 os.makedirs(individual_plots_directory, exist_ok=True)
 
 for secguard in secguards:
