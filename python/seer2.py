@@ -104,7 +104,7 @@ for secguard in secguards:
             ax1.plot(secguard_df['Longitude'].iloc[index], secguard_df['Latitude'].iloc[index], markersize=10,
                     marker='o', linestyle='', color=floor_color, transform=ccrs.PlateCarree(), label='GPS Point')
 
-            plt.pause(0.5)  # Adjust the pause duration
+            plt.pause(0.1)  # Adjust the pause duration
 
         # Create a legend
         handles = []

@@ -19,11 +19,12 @@ if ($result->num_rows > 0) {
     $_SESSION["LoginID"] = $row["LoginID"];
 
     //Redirect to home page
-    header("Location: index.php");
+    header("Location: index.html");
     exit;
 }
 else {
     echo "<h3 style='color:red'> Invalid Login Credentials</h3>";
 }
 $conn->close();
+
 ?>
