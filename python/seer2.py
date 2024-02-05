@@ -24,15 +24,22 @@ connection_string = f'mysql+mysqlconnector://root:@localhost:3306/geotrackdb'
 engine = create_engine(connection_string)
 qry = 'SELECT * FROM records;'
 df = pd.read_sql_query(qry, engine)
+# Bluetooth mac checking
+btqry = 'SELECT * FROM secguard where SecGuardID = 1;'
+df_bt = pd.read_sql_query(btqry, engine)
 
 # You can use the DataFrame columns to access specific data
 recordid = df['RecordID'].tolist()
 secguards = df['SecGuardID'].unique()  # Get unique SecGuardIDs
+secbtadrs = df['SecBTAdrs'].tolist()  # Get unique SecBTAdrs
 date = df['RecordTime'].tolist()
 alts = df['Altitude'].tolist()
 lats = df['Latitude'].tolist()
 lons = df['Longitude'].tolist()
 floors = df['Floor'].tolist()
+
+# Bluetooth mac checking
+btadrs = df_bt['SecBTAdrs'].tolist()
 
 def image_spoof(self, tile): 
     api_url = self._image_url(tile)  # get the url of the street map API
@@ -99,6 +106,12 @@ for secguard in secguards:
 
  
         floor_colormap = plt.cm.get_cmap('viridis', len(secguard_df['Floor'].unique()))
+
+        for i in range(len(secbtadrs)):
+            if df['SecBTAdrs'][i] != btadrs[0]:
+                ax1.plot(df['Longitude'][i], df['Latitude'][i], markersize=10,
+                        marker='o', linestyle='', color='red', transform=ccrs.PlateCarree(), label='Bluetooth Point')
+                plt.pause(0.1)
 
         for index in range(0, len(secguard_df['Longitude']), 5):
             floor_color = floor_colormap(secguard_df['Floor'].iloc[index] / len(secguard_df['Floor'].unique()))
