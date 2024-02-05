@@ -107,18 +107,19 @@ for secguard in secguards:
  
         floor_colormap = plt.cm.get_cmap('viridis', len(secguard_df['Floor'].unique()))
 
-        for i in range(len(secbtadrs)):
-            if df['SecBTAdrs'][i] != btadrs[0]:
-                ax1.plot(df['Longitude'][i], df['Latitude'][i], markersize=10,
-                        marker='o', linestyle='', color='red', transform=ccrs.PlateCarree(), label='Bluetooth Point')
-                plt.pause(0.1)
-
         for index in range(0, len(secguard_df['Longitude']), 5):
             floor_color = floor_colormap(secguard_df['Floor'].iloc[index] / len(secguard_df['Floor'].unique()))
             ax1.plot(secguard_df['Longitude'].iloc[index], secguard_df['Latitude'].iloc[index], markersize=10,
                     marker='o', linestyle='', color=floor_color, transform=ccrs.PlateCarree(), label='GPS Point')
 
             plt.pause(0.1)  # Adjust the pause duration
+
+        # Provides the GEO location points where the bluetooth mac address does not match the security guard's mac address
+        for i in range(len(secbtadrs)):
+            if df['SecBTAdrs'][i] != btadrs[0]:
+                ax1.plot(df['Longitude'][i], df['Latitude'][i], markersize=10,
+                        marker='o', linestyle='', color='red', transform=ccrs.PlateCarree(), label='Bluetooth Point')
+                plt.pause(0.1)
 
         # Create a legend
         handles = []
